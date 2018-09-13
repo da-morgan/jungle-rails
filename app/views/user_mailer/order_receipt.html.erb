@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1> Thanks for placing an order on Jungle </h1>
+    <h3> Here is what you bought: </h3>
+    <ul>
+        <% @line_items.each do |item| %>
+            <% current_product = get_product item.product_id %>
+            <li><%= current_product.name %> x<%= item.quantity %> @ $<%=current_product.price_cents/100%></li>
+        <% end %>
+    </ul>
+    <h3> Order Total: <%=@order.total_cents / 100.0%>
+  </body>
+</html>
