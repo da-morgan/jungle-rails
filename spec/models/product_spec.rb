@@ -19,7 +19,7 @@ RSpec.describe Product, type: :model do
     it "fails without a product price" do
       @category = Category.new(name: "Footwear")
       @category.save!
-      shoes = Product.new(name: "shoes", quantity: 10, category_id: @category.id)
+      shoes = Product.new(name: "shoes", price_cents: nil, quantity: 10, category_id: @category.id)
       expect(shoes).to_not be_valid
     end
 
