@@ -50,6 +50,43 @@ RSpec.describe User, type: :model do
       user3 = User.new(name: "Jim", email: "jim@jim.com", password: "m", password_confirmation: "m")
       expect(user3).to_not be_valid
     end
-
   end  
+
+  describe ".authenticate-with-credentials" do
+    it "passes when credentials are valid" do
+      user1 = User.new(name: "Jim", email: "jim@jim.com", password: "marcopolo", password_confirmation: "marcopolo")
+      user1.save!
+      user1Check = User.authenticate_with_credentials("jim@jim.com", "marcopolo")
+      expect(user1).to eq(user1Check)
+    end
+
+    it "fails when email is invalid" do
+      user1 = User.new(name: "Jim", email: "jim@jim.com", password: "marcopolo", password_confirmation: "marcopolo")
+      user1.save!
+      user1Check = User.authenticate_with_credentials("jim@jim.co", "marcopolo")
+      expect(user1).to_not eq(user1Check)
+    end
+
+    it "fails when password is invalid" do
+      user1 = User.new(name: "Jim", email: "jim@jim.com", password: "marcopolo", password_confirmation: "marcopolo")
+      user1.save!
+      user1Check = User.authenticate_with_credentials("jim@jim.com", "polomarco")
+      expect(user1).to_not eq(user1Check)
+    end
+
+    it "succeeds when whitespace is at the front or end of an email" do
+      user1 = User.new(name: "Jim", email: "jim@jim.com", password: "marcopolo", password_confirmation: "marcopolo")
+      user1.save!
+      user1Check = User.authenticate_with_credentials("   jim@jim.com   ", "marcopolo")
+      expect(user1).to eq(user1Check)
+    end
+
+    it "succeeds when emails are not case sensitive" do
+      user1 = User.new(name: "Jim", email: "jim@jim.com", password: "marcopolo", password_confirmation: "marcopolo")
+      user1.save!
+      user1Check = User.authenticate_with_credentials("jIm@jiM.Com", "marcopolo")
+      expect(user1).to eq(user1Check)
+    end
+
+  end
 end
