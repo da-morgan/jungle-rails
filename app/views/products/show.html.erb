@@ -26,23 +26,25 @@
       </div>
     </div>
 
-    <h2> Leave a review! </h2>
-    <%= form_for [@product, Review.new] do |f| %>
-        <%= f.label :rating%>
-        <%= f.select :rating, [1, 2, 3, 4, 5]%>
-        <%= f.label :description %>
-        <%= f.text_field :description %>
-        <%= f.submit "Create" %>
-    <% end %>
-
-    <h3>Reviews:</h3>
-    <div class="row">
-      <% @reviews.each do |review| %>
-          <div>
-            <h5>Description: <%= review.description %> ---------- 1-5 Rating: <%= review.rating %></h5>
-          </div>
+    <% if current_user %>
+      <h2> Leave a review! </h2>
+      <%= form_for [@product, Review.new] do |f| %>
+          <%= f.label :rating%>
+          <%= f.select :rating, [1, 2, 3, 4, 5]%>
+          <%= f.label :description %>
+          <%= f.text_field :description %>
+          <%= f.submit "Create" %>
       <% end %>
-    </div>
+
+      <h3>Reviews:</h3>
+      <div class="row">
+        <% @reviews.reverse.each do |review| %>
+            <div>
+              <h5>Description: <%= review.description %> ---------- 1-5 Rating: <%= review.rating %></h5>
+            </div>
+        <% end %>
+      </div>
+    <% end %>
 
   </article>
 
