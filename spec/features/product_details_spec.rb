@@ -21,8 +21,8 @@ RSpec.feature "ProductDetails", type: :feature, js: true do
       visit root_path
 
       first("article.product").find('img').click
-      
-      sleep 2
+
+      expect(page).to have_css 'article.product-detail'
       save_screenshot
 
     end
